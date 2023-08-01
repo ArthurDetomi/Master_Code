@@ -28,5 +28,6 @@ void moveZeroes(vector<int> &nums) {
 }
 
 int main() {
+    cout << "Hello World" << endl;
     // Implementação e teste no futuro
 }
