@@ -1,3 +1,10 @@
+class Node {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
 class LinkedList {
     constructor(value) {
         this.head = {
@@ -8,49 +15,71 @@ class LinkedList {
         this.length = 1;
     }
 
-    _createNode(value) {
-        const node = {
-            value: value,
-            next: null
-        };
-        return node;
-    }
-
     append(value) {
-        const node = this._createNode(value);
-        
-        if (this.head.next == null) {
-            this.head.next = node;
-            this.tail = node;
-            this.length++;
-            return true;
-        }
-        
-        let nodeActual = this.head.next;
-        while (nodeActual.next != null) {
-            nodeActual = nodeActual.next;
-        }
-        nodeActual.next = node;
+        const newNode = new Node(value);
+        this.tail.next = newNode;
+        this.tail = newNode;
         this.length++;
-        this.tail = node;
-        return true;
+        return this;
+    } // O(1)
+
+    prepend(value) {
+        const newNode = new Node(value);
+        newNode.next = this.head;
+        this.head = newNode;
+        this.length++;
+        return this;
     }
 
-    listValues() {
-        let nodeActual = this.head;
-        while (nodeActual.next != null) {
-            console.log(nodeActual.value);
-            nodeActual = nodeActual.next;
+    insert(index, value) {
+        if (index > (this.length - 1) || index < 0) {
+            console.error("Bad");
+            return undefined;
         }
-        console.log(nodeActual.value);
+        if (index == 0) {
+            this.prepend(value);
+            return this;
+        }
+        const newNode = new Node(value);
+        
+        let currentNode = this.head;
+        for (let i = 1; i < index; i++) {
+            currentNode = currentNode.next;
+        }
+
+        let nodeAux = currentNode.next;
+        currentNode.next = newNode;
+        newNode.next = nodeAux;
+        this.length++;
+        return this;
     }
+
+    convertToArray() {
+        const array = [];
+
+        let currentNode = this.head;
+        while (currentNode.next !== null) {
+            array.push(currentNode.value);
+            currentNode = currentNode.next;
+        }
+        
+        return array;
+    } // O(n)
+
+    size() {
+        return this.length;
+    } // O(1)
 
 }
 
-const LINKED_LIST = new LinkedList(10); 
-LINKED_LIST.append(5);
-LINKED_LIST.append(16);
+const LINKED_LIST = new LinkedList(10);
 
-LINKED_LIST.listValues();
+LINKED_LIST.append(16);
+LINKED_LIST.append(1);
+
+LINKED_LIST.insert(2, 99);
+//LINKED_LIST.prepend(9);
+
+console.log(LINKED_LIST.convertToArray());
 
 
