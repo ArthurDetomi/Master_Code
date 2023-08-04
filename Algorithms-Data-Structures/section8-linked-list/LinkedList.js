@@ -41,16 +41,36 @@ class LinkedList {
             return this;
         }
         const newNode = new Node(value);
-        
-        let currentNode = this.head;
-        for (let i = 1; i < index; i++) {
-            currentNode = currentNode.next;
-        }
 
-        let nodeAux = currentNode.next;
-        currentNode.next = newNode;
+        const leaderNode = this._traverseToIndex(index);
+        let nodeAux = leaderNode.next;
+        leaderNode.next = newNode;
         newNode.next = nodeAux;
         this.length++;
+        return this;
+    }
+
+    _traverseToIndex(index) {
+        let currentNode = this.head;
+        for (let i = 0; i < index - 1; i++) {
+            currentNode = currentNode.next;
+        }
+        return currentNode;
+    }
+
+    remove(index) {
+        if (index > (this.length - 1) || index < 0) {
+            console.error("Bad");
+            return undefined;
+        }
+
+        const leaderNode = this._traverseToIndex(index);
+
+        const nodeToDelete = leaderNode.next;
+        leaderNode.next = nodeToDelete.next;
+        nodeToDelete.value = null;
+        nodeToDelete.next = null;
+        this.length--;
         return this;
     }
 
@@ -58,11 +78,11 @@ class LinkedList {
         const array = [];
 
         let currentNode = this.head;
-        while (currentNode.next !== null) {
+
+        for (let i = 0; i < this.length; i++) {
             array.push(currentNode.value);
             currentNode = currentNode.next;
         }
-        
         return array;
     } // O(n)
 
@@ -76,9 +96,11 @@ const LINKED_LIST = new LinkedList(10);
 
 LINKED_LIST.append(16);
 LINKED_LIST.append(1);
-
 LINKED_LIST.insert(2, 99);
-//LINKED_LIST.prepend(9);
+LINKED_LIST.prepend(9);
+LINKED_LIST.insert(1, 98);
+LINKED_LIST.remove(3);
+LINKED_LIST.remove(1);
 
 console.log(LINKED_LIST.convertToArray());
 
