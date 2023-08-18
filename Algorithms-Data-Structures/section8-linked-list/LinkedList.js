@@ -73,6 +73,26 @@ class LinkedList {
         this.length--;
         return this;
     }
+    // analisar depois
+    reverse() {
+        if (this.head.next == null) {
+            return this.head;
+        }
+        
+        let first = this.head;
+        this.tail = this.head;
+        let second = this.head.next;
+
+        while (second != null) {
+            const temp = second.next;
+            second.next = first;
+            first = second;
+        }
+
+        this.head.next = null;
+        this.head = first;
+        return this;
+    }
 
     convertToArray() {
         const array = [];
