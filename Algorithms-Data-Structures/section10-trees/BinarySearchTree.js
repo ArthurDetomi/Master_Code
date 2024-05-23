@@ -67,6 +67,16 @@ tree.insert(9);
 tree.insert(19);
 tree.insert(10);
 tree.insert(7);
-console.log(tree);
 
 console.log(tree.lookup(19));
+console.log(tree.lookup(1));
+
+let response = JSON.stringify(traverse(tree.root));
+console.log(response);
+
+function traverse(node) {
+  const tree = { value: node.value };
+  tree.left = node.left === null ? null : traverse(node.left);
+  tree.right = node.right === null ? null : traverse(node.right);
+  return tree;
+}
