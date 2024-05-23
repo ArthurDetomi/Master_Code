@@ -20,17 +20,26 @@ class BinarySearch {
 
     let currentNode = this.root;
 
-    while (currentNode !== null) {
+    while (true) {
       if (insertionNode.value < currentNode.value) {
+        if (currentNode.left === null) {
+          currentNode.left = insertionNode;
+          break;
+        }
+
         currentNode = currentNode.left;
       } else if (insertionNode.value > currentNode.value) {
+        if (currentNode.right === null) {
+          currentNode.right = insertionNode;
+          break;
+        }
+
         currentNode = currentNode.right;
       } else {
-        return this;
+        break;
       }
     }
 
-    currentNode = insertionNode;
     return this;
   }
 
@@ -53,3 +62,11 @@ class BinarySearch {
 }
 
 const tree = new BinarySearch();
+tree.insert(11);
+tree.insert(9);
+tree.insert(19);
+tree.insert(10);
+tree.insert(7);
+console.log(tree);
+
+console.log(tree.lookup(19));
